@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { IProfile } from '@/models/Profile';
+import { IProfile } from '@/types';
 import { Upload } from 'lucide-react';
 
 export default function ProfilePage() {

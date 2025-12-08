@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ISkill } from '@/models/Skill';
+import { ISkill, IProfile } from '@/types';
 import { Code, Server, Wrench, Globe } from 'lucide-react';
 
 export default function About() {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { IProject } from '@/models/Project';
+import { IProject } from '@/types';
 
 interface ProjectFormProps {
     initialData?: Partial<IProject>;

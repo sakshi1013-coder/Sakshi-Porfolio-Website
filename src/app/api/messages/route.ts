@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/db';
-import Message from '@/models/Message';
+import { db } from '@/lib/firebase';
+import { collection, getDocs, addDoc, orderBy, query } from 'firebase/firestore';
 
 export async function GET() {
     try {
-        await dbConnect();
-        const messages = await Message.find({}).sort({ createdAt: -1 });
+        const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const messages = querySnapshot.docs.map(doc => ({
+            _id: doc.id,
+            ...doc.data()
+        }));
         return NextResponse.json({ success: true, data: messages });
     } catch (error) {
         return NextResponse.json({ success: false, error: 'Failed to fetch messages' }, { status: 500 });
@@ -14,11 +18,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        await dbConnect();
         const body = await request.json();
-        const message = await Message.create(body);
-        return NextResponse.json({ success: true, data: message }, { status: 201 });
+        const docRef = await addDoc(collection(db, 'messages'), {
+            ...body,
+            createdAt: new Date()
+        });
+        return NextResponse.json({ success: true, data: { _id: docRef.id, ...body } }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: 'Failed to send message' }, { status: 400 });
+        return NextResponse.json({ success: false, error: 'Failed to create message' }, { status: 400 });
     }
 }

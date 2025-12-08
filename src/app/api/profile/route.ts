@@ -1,33 +1,36 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/db';
-import Profile from '@/models/Profile';
+import { db } from '@/lib/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 export async function GET() {
     try {
-        await dbConnect();
-        let profile = await Profile.findOne();
-        if (!profile) {
-            // Return default empty profile if none exists
+        const docRef = doc(db, 'profile', 'main');
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return NextResponse.json({ success: true, data: docSnap.data() });
+        } else {
             return NextResponse.json({ success: true, data: {} });
         }
-        return NextResponse.json({ success: true, data: profile });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: 'Failed to fetch profile' }, { status: 500 });
+    } catch (error: any) {
+        console.error('Profile API Error:', error);
+        return NextResponse.json({ success: false, error: error.message || 'Failed to fetch profile', details: JSON.stringify(error) }, { status: 500 });
     }
 }
 
 export async function PUT(request: Request) {
     try {
-        await dbConnect();
         const body = await request.json();
-        // Upsert profile
-        const profile = await Profile.findOneAndUpdate({}, body, {
-            new: true,
-            upsert: true,
-            runValidators: true,
-        });
-        return NextResponse.json({ success: true, data: profile });
+        const docRef = doc(db, 'profile', 'main');
+
+        // Merge true allows updating fields without overwriting the whole doc if we wanted, 
+        // but for profile update usually we send the whole form. 
+        // Using setDoc with merge: true acts like upsert.
+        await setDoc(docRef, body, { merge: true });
+
+        return NextResponse.json({ success: true, data: body });
     } catch (error) {
+        console.error('Profile Update Error:', error);
         return NextResponse.json({ success: false, error: 'Failed to update profile' }, { status: 400 });
     }
 }

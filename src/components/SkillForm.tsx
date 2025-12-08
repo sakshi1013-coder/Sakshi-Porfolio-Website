@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ISkill } from '@/models/Skill';
+import { ISkill } from '@/types';
 
 interface SkillFormProps {
     onSuccess: () => void;

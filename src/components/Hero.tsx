@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { IProfile } from '@/models/Profile';
+import { IProfile } from '@/types';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import GardenControls from './GardenControls';

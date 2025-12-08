@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { IProject } from '@/models/Project';
+import { IProject } from '@/types';
 import { ExternalLink, Github } from 'lucide-react';
 
 export default function Projects() {

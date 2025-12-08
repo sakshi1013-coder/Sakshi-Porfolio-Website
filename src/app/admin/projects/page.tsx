@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Plus, Edit, Trash2 } from 'lucide-react';
-import { IProject } from '@/models/Project';
+import { IProject } from '@/types';
 
 export default function ProjectsPage() {
     const [projects, setProjects] = useState<IProject[]>([]);

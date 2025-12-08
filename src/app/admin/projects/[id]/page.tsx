@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ProjectForm from '@/components/ProjectForm';
-import { IProject } from '@/models/Project';
+import { IProject } from '@/types';
 
 export default function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
     const [project, setProject] = useState<IProject | null>(null);

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Github, Linkedin, Twitter, Instagram } from 'lucide-react';
-import { IProfile } from '@/models/Profile';
+import { IProfile } from '@/types';
 
 export default function Footer() {
     const [profile, setProfile] = useState<IProfile | null>(null);

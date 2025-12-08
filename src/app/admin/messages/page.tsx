@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { IMessage } from '@/models/Message';
+import { IMessage } from '@/types';
 
 export default function MessagesPage() {
     const [messages, setMessages] = useState<IMessage[]>([]);

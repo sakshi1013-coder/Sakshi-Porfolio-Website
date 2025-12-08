@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import SkillForm from '@/components/SkillForm';
-import { ISkill } from '@/models/Skill';
+import { ISkill } from '@/types';
 import { Trash2 } from 'lucide-react';
 
 export default function SkillsPage() {
