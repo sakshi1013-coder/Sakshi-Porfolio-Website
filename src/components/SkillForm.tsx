@@ -62,6 +62,8 @@ export default function SkillForm({ onSuccess }: SkillFormProps) {
                     >
                         <option value="Frontend">Frontend</option>
                         <option value="Backend">Backend</option>
+                        <option value="Databases">Databases</option>
+                        <option value="Programming Languages">Programming Languages</option>
                         <option value="Tools">Tools</option>
                         <option value="Other">Other</option>
                     </select>

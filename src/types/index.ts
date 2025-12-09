@@ -26,7 +26,7 @@ export interface IProject {
 export interface ISkill {
     _id: string;
     name: string;
-    category: 'frontend' | 'backend' | 'tools' | 'design' | 'other';
+    category: 'Frontend' | 'Backend' | 'Databases' | 'Programming Languages' | 'Tools' | 'Other';
     icon: string; // React-Icons name
     proficiency?: number; // Added proficiency
 }
