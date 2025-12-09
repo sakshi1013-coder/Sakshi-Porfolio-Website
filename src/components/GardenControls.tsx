@@ -19,8 +19,7 @@ export default function GardenControls() {
             ? Math.random() * 25 + 25 // Background
             : Math.random() * 15 + 5; // Foreground
 
-        const newFlower: PlantedFlower = {
-            id: Date.now(),
+        const newFlower = {
             type: selectedFlower,
             x: Math.random() * 90 + 5,
             y: yPos,
