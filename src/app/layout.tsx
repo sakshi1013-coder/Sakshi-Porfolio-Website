@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { AuthProvider } from "@/context/AuthContext";
 import { GardenProvider } from "@/context/GardenContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import PixelGarden from "@/components/PixelGarden";
 
 const geistSans = Geist({
@@ -33,11 +34,13 @@ export default function RootLayout({
       >
         <AuthProvider>
           <GardenProvider>
-            {/* Global Pixel Garden Background */}
-            <div className="fixed inset-0 z-[-1]">
-              <PixelGarden />
-            </div>
-            {children}
+            <ThemeProvider>
+              {/* Global Pixel Garden Background */}
+              <div className="fixed inset-0 z-[-1]">
+                <PixelGarden />
+              </div>
+              {children}
+            </ThemeProvider>
           </GardenProvider>
         </AuthProvider>
       </body>

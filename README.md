@@ -10,7 +10,7 @@ A personal portfolio website featuring a unique interactive "Pixel Garden" theme
 -   **Animations**: Smooth transitions using GSAP and CSS animations.
 -   **Fully Responsive**: Works seamlessly on desktop and mobile.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stackhow 
 
 -   **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
 -   **Language**: TypeScript

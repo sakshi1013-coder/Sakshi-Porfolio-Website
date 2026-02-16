@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { IProfile } from '@/types';
 import { Upload } from 'lucide-react';
+import ImageUpload from '@/components/ImageUpload';
 
 export default function ProfilePage() {
     const [formData, setFormData] = useState({
@@ -136,10 +137,23 @@ export default function ProfilePage() {
 
                 <div>
                     <label className="block text-sm font-bold text-midnight/80 mb-2">Avatar URL</label>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-col space-y-4">
                         {formData.avatarUrl && (
                             <img src={formData.avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm" />
                         )}
+                        <ImageUpload
+                            folder="profile"
+                            label="Upload Avatar"
+                            onUploadComplete={(url) => setFormData(prev => ({ ...prev, avatarUrl: url }))}
+                        />
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                                <div className="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div className="relative flex justify-center">
+                                <span className="px-2 bg-white text-sm text-gray-500">Or use URL</span>
+                            </div>
+                        </div>
                         <input
                             type="text"
                             name="avatarUrl"

@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FolderKanban, Wrench, MessageSquare, Flower } from 'lucide-react';
+import { FolderKanban, Wrench, MessageSquare, Flower, Upload, Check, X } from 'lucide-react';
 import { useGarden } from '@/context/GardenContext';
 import PixelFlower from '@/components/PixelFlower';
+import { storage } from '@/lib/firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 export default function AdminDashboard() {
     const { flowers, flowerCounts, resetGarden } = useGarden();
@@ -12,6 +14,52 @@ export default function AdminDashboard() {
         skills: 0,
         messages: 0,
     });
+
+    const [file, setFile] = useState<File | null>(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploading, setUploading] = useState(false);
+    const [uploadURL, setUploadURL] = useState<string | null>(null);
+    const [uploadError, setUploadError] = useState<string | null>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setFile(e.target.files[0]);
+            setUploadError(null);
+            setUploadURL(null);
+            setUploadProgress(0);
+        }
+    };
+
+    const handleUpload = () => {
+        if (!file) return;
+
+        setUploading(true);
+        setUploadError(null);
+
+        // Create a storage reference
+        const storageRef = ref(storage, `uploads/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+            },
+            (error) => {
+                console.error("Upload failed", error);
+                setUploadError(error.message);
+                setUploading(false);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setUploadURL(downloadURL);
+                    setUploading(false);
+                    setFile(null); // Clear file after successful upload
+                    console.log('File available at', downloadURL);
+                });
+            }
+        );
+    };
 
     useEffect(() => {
         const fetchStats = async () => {

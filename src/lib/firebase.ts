@@ -1,20 +1,33 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
-import { getFirestore } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getStorage } from "firebase/storage";
 
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'mock-key',
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'mock-domain',
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'mock-project',
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'mock-bucket',
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || 'mock-sender',
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || 'mock-app',
+    apiKey: "AIzaSyAbPV6VwZYUhaplgQKkm1nWzSA3xNzG_l0",
+    authDomain: "sakshi-642e3.firebaseapp.com",
+    projectId: "sakshi-642e3",
+    storageBucket: "sakshi-642e3.firebasestorage.app",
+    messagingSenderId: "641355112068",
+    appId: "1:641355112068:web:23dcd54be3f8cb1b4f6cd1",
+    measurementId: "G-8S4CMTKM40"
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Analytics (only on client side)
+let analytics;
+if (typeof window !== "undefined") {
+    analytics = getAnalytics(app);
+}
+
+// Initialize Services
 const storage = getStorage(app);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { app, auth, storage, db };
+export { app, analytics, storage, auth, db };

@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ISkill, IProfile } from '@/types';
+import { ISkill } from '@/types';
 import { Code, Server, Wrench, Globe, Database, Terminal } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function About() {
     const [skills, setSkills] = useState<ISkill[]>([]);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const fetchSkills = async () => {
@@ -24,12 +26,12 @@ export default function About() {
     }, []);
 
     const categories = {
-        'Frontend': { icon: Code, color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900' },
-        'Backend': { icon: Server, color: 'text-green-500', bg: 'bg-green-100 dark:bg-green-900' },
-        'Databases': { icon: Database, color: 'text-orange-500', bg: 'bg-orange-100 dark:bg-orange-900' },
-        'Programming Languages': { icon: Terminal, color: 'text-pink-500', bg: 'bg-pink-100 dark:bg-pink-900' },
-        'Tools': { icon: Wrench, color: 'text-yellow-500', bg: 'bg-yellow-100 dark:bg-yellow-900' },
-        'Other': { icon: Globe, color: 'text-purple-500', bg: 'bg-purple-100 dark:bg-purple-900' },
+        'Frontend': { icon: Code },
+        'Backend': { icon: Server },
+        'Databases': { icon: Database },
+        'Programming Languages': { icon: Terminal },
+        'Tools': { icon: Wrench },
+        'Other': { icon: Globe },
     };
 
     const groupedSkills = skills.reduce((acc, skill) => {
@@ -43,8 +45,8 @@ export default function About() {
         <section id="about" className="py-20 bg-transparent transition-colors duration-500">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight drop-shadow-md">About & Skills</h2>
-                    <p className="text-lg text-white/90 max-w-2xl mx-auto font-light drop-shadow-sm">
+                    <h2 className={`text-3xl md:text-4xl font-bold mb-4 tracking-tight drop-shadow-md ${theme.text}`}>About & Skills</h2>
+                    <p className={`text-lg max-w-2xl mx-auto font-light drop-shadow-sm ${theme.subtext}`}>
                         Here's a glimpse of my technical expertise and the technologies I work with.
                     </p>
                 </div>
@@ -57,11 +59,11 @@ export default function About() {
                         if (skillsInCategory.length === 0) return null;
 
                         return (
-                            <div key={category} className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-xl hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1 min-h-[300px] flex flex-col">
-                                <div className={`w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-8 shadow-inner border border-white/10`}>
-                                    <CatIcon className={`h-8 w-8 text-white`} />
+                            <div key={category} className={`backdrop-blur-xl border p-8 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 min-h-[300px] flex flex-col ${theme.isNight ? 'bg-white/10 border-white/20 hover:bg-white/20' : 'bg-white/40 border-white/40 hover:bg-white/50'}`}>
+                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 shadow-inner border ${theme.isNight ? 'bg-white/20 border-white/10' : 'bg-white/50 border-white/30'}`}>
+                                    <CatIcon className={`h-8 w-8 ${theme.text}`} />
                                 </div>
-                                <h3 className="text-2xl font-bold text-white mb-6 tracking-wide">{category}</h3>
+                                <h3 className={`text-2xl font-bold mb-6 tracking-wide ${theme.text}`}>{category}</h3>
                                 <div className="space-y-5 flex-grow">
                                     {skillsInCategory.map((skill) => (
                                         <div key={skill._id}>
@@ -77,7 +79,7 @@ export default function About() {
                                                             }}
                                                         />
                                                     )}
-                                                    <span className="text-lg font-medium text-white/90 group-hover:text-white transition-colors">{skill.name}</span>
+                                                    <span className={`text-lg font-medium transition-colors ${theme.subtext} group-hover:${theme.text}`}>{skill.name}</span>
                                                 </div>
                                             </div>
                                         </div>
